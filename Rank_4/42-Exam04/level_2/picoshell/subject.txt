@@ -1,0 +1,32 @@
+Assignment name  : picoshell
+Expected files   : picoshell.c
+Allowed functions: close, fork, wait, exit, execvp, dup2, pipe
+--------------------------------------------------------------------------------------
+
+Write the following function:
+
+int picoshell(char **cmds[]);
+
+The goal of this function is to execute a command pipeline. It must execute each
+command in the array 'cmds' and connect the output of one command to the input of
+the next command, just like a shell.
+
+'cmds' is a null-terminated array of commands. Each element of cmds is an argv-like array
+representing a command and its parameters, and this structure is directly usable for a call to execvp.
+The first string of each command is the command name or path and can be passed directly as the first argument of execvp.
+
+If any error occurs, the function must return 1. You must, of course, close all the open file descriptors beforehand. Otherwise, the function must wait for all child processes and return 0.
+
+Your program should be able to manage hundreds of "|" even if the number of "open files" per process is limited to less than 30.
+
+In this directory, you will find a file named main.c, which contains tools to help you test your function.
+
+Example using the provided main() function:
+$> ./picoshell /bin/ls "|" /usr/bin/grep picoshell
+picoshell
+$> ./picoshell echo 'squalala.' "|" cat "|" sed 's/a/b/g'
+squblblb.
+
+Hint:
+Do not leak file descriptors!
+The exit status of the children will not be monitored.

@@ -1,0 +1,1 @@
+this msg will print in file.txt because we duplicate the output to it
